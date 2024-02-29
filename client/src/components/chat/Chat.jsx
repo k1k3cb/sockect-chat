@@ -6,6 +6,7 @@ import {
 	StyledBubblesFlex,
 	StyledChat,
 	StyledChatSpace,
+	StyledForm,
 	StyledUseList
 } from './styles';
 
@@ -53,10 +54,10 @@ const Chat = () => {
 						))}
 					</StyledBubblesFlex>
 
-					<form onSubmit={handleSend}>
+					<StyledForm onSubmit={handleSend}>
 						<input type='text' name='message' />
 						<button>Enviar</button>
-					</form>
+					</StyledForm>
 				</StyledChatSpace>
 			</StyledChat>
 		</>

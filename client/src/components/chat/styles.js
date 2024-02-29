@@ -20,15 +20,20 @@ export const StyledChatSpace = styled.div`
 	width: 80%;
 	padding: 10px;
 
-	height: 100%; 
-	overflow-y: auto; 
+	height: 100%;
+	overflow-y: auto;
+	display: flex;
 `;
 
 export const StyledBubblesFlex = styled.div`
 	display: flex;
 	flex-direction: column;
 
-	max-height: calc(100% - 50px); 
+	max-height: calc(100% - 50px);
 	overflow-y: auto;
+`;
+
+export const StyledForm = styled.form`
+	margin-top: auto;
 	
 `;
