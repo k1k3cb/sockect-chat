@@ -1,5 +1,7 @@
+const { v4 } = require("uuid");
+
 let allUsers = [];
-let messages = [];
+
 
 const addUsers = (socket, io, username) => {
   socket.username = username;
@@ -18,25 +20,27 @@ const disconnectUser = (socket, io) => {
   io.emit('users', allUsers);
 };
 
-const newMessage = (socket, io) => {
-  socket.on('message', message => {
-    messages.push({
-      id: socket.id,
-      username: socket.username,
-      userMessage: message,
-      color: socket.color
-    });
-    io.emit('message', messages);
+const newMessage = (socket, io, message) => {
+  io.emit('message', {
+    id: v4(),
+    senderId: socket.id,
+    username: socket.username,
+    userMessage: message,
+    color: socket.color
   });
 };
 
 const establishSocketConnection = (socket, io) => {
   console.log('Cliente conectado');
+
   if (!socket.username) {
     socket.emit('not user name');
   }
   socket.on('login', username => {
     addUsers(socket, io, username);
+  });
+  socket.on('message', message => {
+    newMessage(socket, io, message);
   });
 
   newMessage(socket, io);

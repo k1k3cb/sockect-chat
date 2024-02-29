@@ -21,14 +21,15 @@ const Home = () => {
 
 const handleLogin = (event, navigate) => {
 	event.preventDefault();
+
 	const username = event.target.username.value;
 	socket.emit('login', username);
 	navigate('/chat');
+	
 };
 
 const handleChangeButton = (event, setBtnDisabled) => {
 	const message = event.target.value.trim();
-	console.log('message', message);
 	setBtnDisabled(message === '');
 };
 

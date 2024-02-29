@@ -11,24 +11,27 @@ import {
 
 const Chat = () => {
 	const [connectedUsers, setConnectedUsers] = useState([]);
-	const [userMessage, setUserMessage] = useState([]);
+	const [messages, setMessages] = useState([]);
 
 	console.log('connectedUsers', connectedUsers);
-	console.log('userMessage', userMessage);
+	console.log('userMessage', messages);
 
 	useEffect(() => {
 		socket.on('users', allUsers => {
 			setConnectedUsers(allUsers);
 		});
-		socket.on('not user name', noUsers(navigate));
+		socket.on('not user name', () => noUsers(navigate));
 	}, []);
+
 	useEffect(() => {
-		socket.on('message', messages => {
-			setUserMessage(messages);
+		socket.on('message', message => {
+			setMessages(prevMessages => [...prevMessages, message]);
 		});
 	}, []);
 
 	const navigate = useNavigate();
+	console.log('userMessages', messages);
+
 	return (
 		<>
 			<StyledChat>
@@ -39,12 +42,13 @@ const Chat = () => {
 				</StyledUseList>
 				<StyledChatSpace>
 					<StyledBubblesFlex>
-						{userMessage.map(message => (
+						{messages.map(message => (
 							<BubbleChat
 								user={message.username}
 								text={message.userMessage}
 								key={message.id}
 								color={message.color}
+								currentUser={message.senderId === socket.id}
 							/>
 						))}
 					</StyledBubblesFlex>
